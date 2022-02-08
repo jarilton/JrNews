@@ -1,15 +1,28 @@
+import styles from './Home.module.scss'
+
 import Head from 'next/head'
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Inicio | Jr News</title>
+        <title>Home | Jr News</title>
       </Head>
 
-      <h1>
-      Seja todos bem vindos ao Jr News
-    </h1>
+      <main className={styles.contentContainer}>
+        <section className={styles.hero}>
+          <span>👏 Hey, welcome</span>
+          <h1>News about the <span>React</span> world.</h1>
+          <p>
+            Get access to all the publications <br />
+            <span>for $9.90 month</span>
+          </p>
+
+        </section>
+
+        <img src="/images/avatar.svg" alt="Girl coding" />
+
+      </main>
     </>
   )
 }
