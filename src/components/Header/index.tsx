@@ -8,8 +8,8 @@ export function Header() {
                 <div className={styles.headerContent}>
                     <img src="/images/logo.png" alt="Jr News" />
                     <nav>
-                        <a className={styles.active}>Home</a>
-                        <a>Posts</a>
+                        <a className={styles.active}>Inicio</a>
+                        <a>Postagens</a>
                     </nav>
 
                     <SignInButton />

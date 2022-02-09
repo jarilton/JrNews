@@ -11,7 +11,8 @@ export function SubscribeButton({ priceId }:SubscribeButtonProps) {
             type="button" 
             className={styles.subscribeButton}
         >
-            Subscribe now
+            
+            Inscreva-se agora
         </button>
         
     )
