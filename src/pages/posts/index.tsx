@@ -1,16 +1,21 @@
-/* import { GetStaticProps } from 'next'; */
-/* import Prismic from '@prismicio/client' */
-/* 
-import { getPrismicClient } from '../../services/prismic'; */
-
 import * as prismic from '@prismicio/client'
 import fetch from 'node-fetch'
 
 import Head from 'next/head';
 import styles from './styles.module.scss';
+import { RichText } from 'prismic-dom';
 
+type Pages = {
+    slug: string;
+    title: string;
+    excerpt: string;
+    updatedAt: string;
+}
+interface PagesProps {
+    pages: Pages[]
+}
 
-export default function Posts() {
+export default function Posts({ pages }: PagesProps) {
     return (
         <>
             <Head>
@@ -18,43 +23,18 @@ export default function Posts() {
             </Head>
             <main className={styles.container}>
                 <div className={styles.posts}>
-                    <a href='#'>
-                        <time>01 de março de 1998</time>
-                        <strong>O ano do nascimento do Jamal</strong>
-                        <p>Deus sabe de todas as coisas, confia nele e ele tudo fará! Se tu creres, tu verás a glória de Deus.</p>
-                    </a>
-                    <a href='#'>
-                        <time>10 de junho de 1992</time>
-                        <strong>Copa do mundo</strong>
-                        <p>O senhor é meu pastor e nada me faltará.</p>
-                    </a>
-                    <a href='#'>
-                        <time>13 de maio de 1990</time>
-                        <strong>Olimpíadas da alemanha</strong>
-                        <p>Mil cairão ao teu lado e dez mil a tua direita mas tu não serás atingido.</p>
-                    </a>
+                    {pages.map(page => (
+                        <a key={page.slug} href="#">
+                            <time>{page.updatedAt}</time>
+                            <strong>{page.title}</strong>
+                            <p>{page.excerpt}</p>
+                        </a>
+                    ))}
                 </div>
             </main>
         </>
     )
 }
-
-/* export const getStaticProps: GetStaticProps = async () => {
-    const prismic = getPrismicClient()
-
-    const response = await prismic.query([
-        Prismic.predicate.at('document.type', 'posts')
-    ], {
-        fetch: ['posts.title', 'posts.content'],
-        pageSize: 100,
-    })
-
-    console.log(response)
-
-    return {
-        props: {}
-    }
-} */
 
 const routes = [
     {
@@ -68,14 +48,30 @@ const endpoint = prismic.getEndpoint(repoName)
 const client = prismic.createClient(endpoint, { routes, fetch })
 
 const init = async () => {
-    const pages = await client.getAllByType('page', {
+    const response = await client.getAllByType('page', {
         orderings: {
             field: 'document.first_publication_date',
             direction: 'desc',
         },
-        lang: 'en-us',
+        lang: 'pt-BR',
     })
-    console.log(JSON.stringify(pages, null, 2))
+    const pages = response.map(page => {
+        return {
+            slug: page.uid,
+            title: RichText.asText(page.data.title),
+            excerpt: page.data.content.find(content => content.type === 'paragraph')?.text ?? '',
+            updatedAt: new Date(page.last_publication_date).toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            })
+        }
+    })
+    return {
+        props: {
+            pages
+        }
+    }
 }
 
 init()
