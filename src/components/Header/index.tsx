@@ -1,21 +1,22 @@
-import Link from 'next/link'
-
+import { ActiveLink } from '../ActiveLink'
 import { SignInButton } from './SignInButton'
 import styles from './styles.module.scss'
 
 export function Header() {
+
+
     return (
         <>
             <header className={styles.headerContainer}>
                 <div className={styles.headerContent}>
                     <img src="/images/logo.png" alt="Jr News" />
                     <nav>
-                        <Link href="/">
-                            <a className={styles.active}>Inicio</a>
-                        </Link>
-                        <Link href="/posts">
+                        <ActiveLink activeClassName={styles.active} href="/">
+                            <a>Inicio</a>
+                        </ActiveLink>
+                        <ActiveLink activeClassName={styles.active} href="/posts">
                             <a>Postagens</a>
-                        </Link>
+                        </ActiveLink>
                     </nav>
 
                     <SignInButton />
