@@ -5,17 +5,17 @@ import Head from 'next/head';
 import styles from './styles.module.scss';
 import { RichText } from 'prismic-dom';
 
-type Pages = {
+type Posts = {
     slug: string;
     title: string;
     excerpt: string;
     updatedAt: string;
 }
-interface PagesProps {
-    pages: Pages[]
+interface PostsProps {
+    posts: Posts[]
 }
 
-export default function Posts({ pages }: PagesProps) {
+export default function Posts({ posts }: PostsProps) {
     return (
         <>
             <Head>
@@ -23,11 +23,11 @@ export default function Posts({ pages }: PagesProps) {
             </Head>
             <main className={styles.container}>
                 <div className={styles.posts}>
-                    {pages.map(page => (
-                        <a key={page.slug} href="#">
-                            <time>{page.updatedAt}</time>
-                            <strong>{page.title}</strong>
-                            <p>{page.excerpt}</p>
+                    {posts.map(post => (
+                        <a key={post.slug} href="#">
+                            <time>{post.updatedAt}</time>
+                            <strong>{post.title}</strong>
+                            <p>{post.excerpt}</p>
                         </a>
                     ))}
                 </div>
@@ -38,7 +38,7 @@ export default function Posts({ pages }: PagesProps) {
 
 const routes = [
     {
-        type: 'page',
+        type: 'post',
         path: '/:uid',
     },
 ]
@@ -48,19 +48,19 @@ const endpoint = prismic.getEndpoint(repoName)
 const client = prismic.createClient(endpoint, { routes, fetch })
 
 const init = async () => {
-    const response = await client.getAllByType('page', {
+    const response = await client.getAllByType('post', {
         orderings: {
             field: 'document.first_publication_date',
             direction: 'desc',
         },
         lang: 'pt-BR',
     })
-    const pages = response.map(page => {
+    const posts = response.map(post => {
         return {
-            slug: page.uid,
-            title: RichText.asText(page.data.title),
-            excerpt: page.data.content.find(content => content.type === 'paragraph')?.text ?? '',
-            updatedAt: new Date(page.last_publication_date).toLocaleDateString('pt-BR', {
+            slug: post.uid,
+            title: RichText.asText(post.data.title),
+            excerpt: post.data.content.find(content => content.type === 'paragraph')?.text ?? '',
+            updatedAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
                 day: '2-digit',
                 month: 'long',
                 year: 'numeric'
@@ -69,7 +69,7 @@ const init = async () => {
     })
     return {
         props: {
-            pages
+            posts
         }
     }
 }
