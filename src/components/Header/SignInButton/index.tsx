@@ -10,24 +10,24 @@ export function SignInButton() {
     console.log(session)
 
     return session ? (
-        <button 
-        type="button"
-        className={styles.signInButton}
-        onClick={() => signOut()}
-    >
-        <FaGithub color='#3FBF3F'/>
-        {session.user.name}
-        <FiX color="#737380" className={styles.closeIcon}/>
-    </button>
+        <button
+            type="button"
+            className={styles.signInButton}
+            onClick={() => signOut()}
+        >
+            <FaGithub color='#3FBF3F' />
+            {session.user.name}
+            <FiX color="#737380" className={styles.closeIcon} />
+        </button>
     ) : (
-        <button 
-        type="button"
-        className={styles.signInButton}
-        onClick={() => signIn('github')}
-    >
-        <FaGithub color='#eba417'/>
-        Acessar com o github
-    </button>
+        <button
+            type="button"
+            className={styles.signInButton}
+            onClick={() => signIn('github')}
+        >
+            <FaGithub color='#eba417' />
+            Acessar com o github
+        </button>
     );
 
 }
