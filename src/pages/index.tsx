@@ -9,7 +9,7 @@ import { stripe } from '../services/stripe';
 interface HomeProps {
   product: {
     priceId: string;
-    amount: number;
+    amount: string;
   }
 }
 
@@ -23,14 +23,14 @@ export default function Home({ product }: HomeProps) {
 
       <main className={styles.contentContainer}>
         <section className={styles.hero}>
-          <span>👏 Olá, <br/> Bem vindos!</span>
+          <span>👏 Olá, <br /> Bem vindos!</span>
           <h1>Dicas do Jamal sobre <span>React</span>.</h1>
           <p>
             Tenha acesso a todas as publicações <br />
             <span>por {product.amount} month</span>
           </p>
 
-          <SubscribeButton priceId={product.priceId}/>
+          <SubscribeButton />
 
         </section>
 
@@ -41,7 +41,7 @@ export default function Home({ product }: HomeProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async() => {  
+export const getStaticProps: GetStaticProps = async () => {
   const price = await stripe.prices.retrieve('price_1KQyyPKy7VauIiKOsZBumYBe')
   //usar quando usar o nome do produto
   /* {
@@ -58,10 +58,10 @@ export const getStaticProps: GetStaticProps = async() => {
     }).format(price.unit_amount / 100),
   }
 
-  return{
+  return {
     props: {
       product,
     },
-    revalidate: 60  * 60 * 24, //24 horas
+    revalidate: 60 * 60 * 24, //24 horas
   }
 }
