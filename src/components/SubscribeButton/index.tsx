@@ -3,20 +3,16 @@ import { api } from '../../services/api';
 import { getStripeJs } from '../../services/stripe-js';
 import styles from './styles.module.scss'
 
-interface SubscribeButtonProps {
-    priceId: string;
-}
-
-export function SubscribeButton({ priceId }:SubscribeButtonProps) {
+export function SubscribeButton() {
     const session = useSession();
 
     async function handleSubscribe() {
-        if(!session) {
+        if (!session) {
             signIn('github')
             return;
         }
 
-        try{ 
+        try {
             const response = await api.post('/subscribe')
 
             const { sessionId } = response.data;
@@ -30,16 +26,16 @@ export function SubscribeButton({ priceId }:SubscribeButtonProps) {
         }
     }
 
-    return(
+    return (
 
-        <button 
-            type="button" 
+        <button
+            type="button"
             className={styles.subscribeButton}
             onClick={handleSubscribe}
         >
-            
+
             Inscreva-se agora
         </button>
-        
+
     )
 } 
