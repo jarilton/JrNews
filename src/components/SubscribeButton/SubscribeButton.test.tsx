@@ -12,7 +12,7 @@ describe('SubscribeButton Component', () => {
   it('renders correctly', () => {
     const useSessionMocked = mocked(useSession)
 
-    useSessionMocked.mockReturnValueOnce([null, false])
+    useSessionMocked.mockReturnValueOnce([null, false] as any)
 
     render(<SubscribeButton />);
 
@@ -24,7 +24,7 @@ describe('SubscribeButton Component', () => {
 
     const useSessionMocked = mocked(useSession)
 
-    useSessionMocked.mockReturnValueOnce([null, false])
+    useSessionMocked.mockReturnValueOnce([null, false] as any)
 
 
     render(<SubscribeButton />);
@@ -51,7 +51,7 @@ describe('SubscribeButton Component', () => {
       expires: 'fake-expires'
     },
     false
-  ])
+  ] as any)
 
   useRouterMocked.mockReturnValueOnce({
     push: pushMock,

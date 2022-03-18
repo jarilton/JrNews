@@ -9,7 +9,7 @@ describe('SignInButton Component', () => {
   it('renders correctly when is not authenticated', () => {
     const useSessionMocked = mocked(useSession)
 
-    useSessionMocked.mockReturnValueOnce([null, false])
+    useSessionMocked.mockReturnValueOnce([null, false] as any)
 
     render(<SignInButton />);
 
@@ -22,7 +22,7 @@ describe('SignInButton Component', () => {
     useSessionMocked.mockReturnValueOnce([
       { user: { name: 'John Doe', email: 'john.doe@gmail.com' }, expires: 'fake-expires' },
       false
-    ])
+    ] as any)
     render(<SignInButton />);
 
     expect(screen.getByText('Acessar com o github')).toBeInTheDocument()
